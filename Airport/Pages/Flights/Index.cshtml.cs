@@ -75,17 +75,20 @@ namespace Airport.Pages.Flights
                 }
 
 
-               // public async Task OnGetAsync()
-                {
-                    if (_context.Flight != null)
-                    {
-                        Flight = await _context.Flight
-                            .Include(b => b.Airline)
-                            .ToListAsync();
-                    }
-                }
+                
             }
         }
+        public async Task OnGetAsync(int? categoryID)
+        {
+            if (_context.Flight != null)
+            {
+                Flight = await _context.Flight
+                    .Include(b => b.Airline)
+                    .ToListAsync();
+            }
+        }
+
     }
+    
 }
 

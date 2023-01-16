@@ -57,10 +57,12 @@ namespace Airport.Pages.Flights
             _context.Flight.Add(Flight);
             await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
-        }
-        //    PopulateAssignedCategoryData(_context, newFlight);
 
-        //  return Page();
+            PopulateAssignedCategoryData(_context, Flight);
+
+            return Page();
+        }
+           
     }
 }
 

@@ -26,7 +26,8 @@ namespace Airport.Pages.Subscribings
             if (_context.Subscribing != null)
             {
                 Subscribing = await _context.Subscribing
-                .Include(s => s.Flight)
+                .Include(s => s.Flights)
+                .ThenInclude(b => b.Airline)
                 .Include(s => s.Member).ToListAsync();
             }
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Airport.Data;
 using Airport.Models;
@@ -26,9 +27,9 @@ namespace Airport.Pages.Subscribings
              .Include(b => b.Airline)
              .Select(x => new
              {
-                 x.ID, x.AirlineName
+                 x.ID
              });
-            ViewData["FlightID"] = new SelectList(flightList, "ID", "ID");
+           //ViewData["FlightID"] = new SelectList(flightList, "ID", "AirlineName");
         ViewData["MemberID"] = new SelectList(_context.Member, "ID", "ID");
             return Page();
         }

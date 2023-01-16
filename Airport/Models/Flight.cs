@@ -17,6 +17,8 @@ namespace Airport.Models
         public DateTime FlightDate { get; set; }
         public int? AirlineID { get; set; }
         public Airline? Airline { get; set; }
+        public int? SubscribingID { get; set; }
+        public Subscribing? Subscribing { get; set; }
         public ICollection<FlightCategory>? FlightCategories { get; set; }
 
 

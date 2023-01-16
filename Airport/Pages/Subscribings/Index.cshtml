@@ -22,6 +22,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Subscribing[0].ReturnDate)
             </th>
+            <th>
+                @Html.DisplayNameFor(model =>
+                model.Subscribing[0].Flight.Airline)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -29,10 +33,10 @@
 @foreach (var item in Model.Subscribing) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Member.ID)
+                @Html.DisplayFor(modelItem => item.Member.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Flight.ID)
+                @Html.DisplayFor(modelItem => item.Flight.Subscribing.Flight.Departure)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ReturnDate)
