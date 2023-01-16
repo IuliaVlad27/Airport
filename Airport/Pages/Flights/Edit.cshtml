@@ -1,0 +1,87 @@
+﻿@page
+@model Airport.Pages.Flights.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Flight</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Flight.ID" />
+            <div class="form-group">
+                <label asp-for="Flight.Departure" class="control-label"></label>
+                <input asp-for="Flight.Departure" class="form-control" />
+                <span asp-validation-for="Flight.Departure" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flight.Arrival" class="control-label"></label>
+                <input asp-for="Flight.Arrival" class="form-control" />
+                <span asp-validation-for="Flight.Arrival" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flight.Price" class="control-label"></label>
+                <input asp-for="Flight.Price" class="form-control" />
+                <span asp-validation-for="Flight.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flight.FlightDate" class="control-label"></label>
+                <input asp-for="Flight.FlightDate" class="form-control" />
+                <span asp-validation-for="Flight.FlightDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Flight.FlightDate" class="control-label"></label>
+                <input asp-for="Flight.FlightDate" class="form-control" />
+                <span asp-validation-for="Flight.FlightDate" class="textdanger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flight.AirlineID" class="control-label">Airline Name</label>
+                <select asp-for="Flight.AirlineID" class="form-control" asp-items="ViewBag.AirlineID">
+                </select>
+                <span asp-validation-for="Flight.AirlineID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                                         <div class="table">
+                                         <table>
+                                         <tr>
+                                         @{
+                                         int cnt = 0;
+                                         foreach (var cat in Model.AssignedCategoryDataList)
+                                        {
+                                         if (cnt++ % 3 == 0)
+                                        {
+                                        @:</tr><tr>
+                                        }
+                                        @:<td>
+                                         <input type="checkbox"
+                                         name="selectedCategories"
+                                         value="@cat.CategoryID"
+                                         @(Html.Raw(cat.Assigned ? 
+                                        "checked=\"checked\"" : "")) />
+                                         @cat.CategoryID @: @cat.Name
+                                         @:</td>
+                                   }
+                                   @:</tr>
+                                  }
+                                </table>
+                             </div>
+ </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

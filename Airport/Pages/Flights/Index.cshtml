@@ -1,0 +1,85 @@
+﻿@page "/"
+@model Airport.Pages.Flights.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Flight[0].Departure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flight[0].Arrival)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flight[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flight[0].FlightDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flight[0].FlightDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flight[0].Airline.AirlineName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flight[0].FlightCategories)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.FlightD.Flights) {
+    string selectedRow = "";
+        if (item.ID == Model.FlightID)
+                    {
+            selectedRow = "table-success";
+           }
+        <tr class="@selectedRow">
+        
+            <td>
+                @Html.DisplayFor(modelItem => item.Departure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Arrival)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlightDate)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FlightDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Airline.AirlineName)
+                </td>
+                <td>
+                    @{
+                        foreach (var category in item.FlightCategories)
+                        {
+                            @category.Category.ID @: @category.Category.CategoryName <br />
+                        }
+                    }
+                </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
