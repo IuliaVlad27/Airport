@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Airport.Data;
 using Airport.Models;
+using System.Security.Policy;
+using Airport.Models.ViewModels;
 
 namespace Airport.Pages.Airlines
 {
@@ -19,14 +21,27 @@ namespace Airport.Pages.Airlines
             _context = context;
         }
 
-        public IList<Airline> Airline { get;set; } = default!;
+        public IList<Airline> Airline { get; set; } = default!;
 
-        public async Task OnGetAsync()
+        public AirlineIndexData AirlineData { get; set; }
+        public int AirlineID { get; set; }
+        public int FlightID { get; set; }
+        public async Task OnGetAsync(int? id, int? bookID)
         {
-            if (_context.Airline != null)
+            AirlineData = new AirlineIndexData();
+            AirlineData.Airlines = await _context.Airline
+            .Include(i => i.Flights)
+            //.ThenInclude(c => c.Author)
+            .OrderBy(i => i.AirlineName)
+            .ToListAsync();
+            if (id != null)
             {
-                Airline = await _context.Airline.ToListAsync();
+                AirlineID = id.Value;
+                Airline airline = AirlineData.Airlines
+                .Where(i => i.ID == id.Value).Single();
+                AirlineData.Flights = airline.Flights;
             }
+
         }
     }
 }

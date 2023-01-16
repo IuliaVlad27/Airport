@@ -19,13 +19,25 @@ namespace Airport.Pages.Flights
             _context = context;
         }
 
-        public IList<Flight> Flight { get;set; }
+        public IList<Flight> Flight { get; set; }
         public FlightData FlightD { get; set; }
         public int FlightID { get; set; }
         public int CategoryID { get; set; }
-        public async Task OnGetAsync(int? id, int? categoryID)
+
+        public string DepartureSort { get; set; }
+        public string ArrivalSort { get; set; }
+        public string CurrentFilter { get; set; }
+
+
+        public async Task OnGetAsync(int? id, int? categoryID, string sortOrder, string searchString)
         {
             FlightD = new FlightData();
+            DepartureSort = String.IsNullOrEmpty(sortOrder) ? "departure_desc" : "";
+            ArrivalSort = String.IsNullOrEmpty(sortOrder) ? "arrival_desc" : "";
+
+            CurrentFilter = searchString;
+
+
 
             FlightD.Flights = await _context.Flight
             .Include(b => b.Airline)
@@ -34,24 +46,46 @@ namespace Airport.Pages.Flights
             .AsNoTracking()
             .OrderBy(b => b.Departure)
             .ToListAsync();
-            if (id != null)
+
+            if (!String.IsNullOrEmpty(searchString))
             {
-                FlightID = id.Value;
-                Flight flight = FlightD.Flights
-                .Where(i => i.ID == id.Value).Single();
-                FlightD.Categories = flight.FlightCategories.Select(s => s.Category);
-            }
-        }
+                 FlightD.Flights = FlightD.Flights.Where(s => s.Arrival.Contains(searchString)
+
+                 ||s.Arrival.Contains(searchString) 
+                 || s.Departure.Contains(searchString));
+
+                if (id != null)
+                {
+                    FlightID = id.Value;
+                    Flight flight = FlightD.Flights
+                    .Where(i => i.ID == id.Value).Single();
+                    FlightD.Categories = flight.FlightCategories.Select(s => s.Category);
+                }
+                switch (sortOrder)
+                {
+                    case "departure_desc":
+                        FlightD.Flights = FlightD.Flights.OrderByDescending(s =>
+                       s.Departure);
+                        break;
+                    case "arrival_desc":
+                        FlightD.Flights = FlightD.Flights.OrderByDescending(s =>
+                       s.Arrival);
+                        break;
+
+                }
 
 
-        public async Task OnGetAsync()
-        {
-            if (_context.Flight != null)
-            {
-                Flight = await _context.Flight
-                    .Include(b => b.Airline)
-                    .ToListAsync();
+               // public async Task OnGetAsync()
+                {
+                    if (_context.Flight != null)
+                    {
+                        Flight = await _context.Flight
+                            .Include(b => b.Airline)
+                            .ToListAsync();
+                    }
+                }
             }
         }
     }
 }
+

@@ -20,6 +20,10 @@ namespace Airport.Data
 
         public DbSet<Airport.Models.Category> Category { get; set; }
 
+        public DbSet<Airport.Models.Member> Member { get; set; }
+
+        public DbSet<Airport.Models.Subscribing> Subscribing { get; set; }
+
     }
 
         

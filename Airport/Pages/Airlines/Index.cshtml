@@ -1,4 +1,5 @@
-﻿@page
+﻿@page "{id:int?}"
+
 @model Airport.Pages.Airlines.IndexModel
 
 @{
@@ -20,17 +21,58 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Airline) {
-        <tr>
+            @foreach (var item in Model.AirlineData.Airlines)
+ {
+                 string selectedRow = "";
+                 if (item.ID == Model.AirlineID)
+                 {
+                 selectedRow = "table-success";
+                 }
+         <tr class="@selectedRow">
+        
             <td>
                 @Html.DisplayFor(modelItem => item.AirlineName)
             </td>
             <td>
+                <a asp-page="./Index" asp-route-id="@item.ID">Select</a> |
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
 }
-    </tbody>
-</table>
+         </tbody>
+    </table>
+
+    @if (Model.AirlineData.Flights != null)
+{
+        <h3>Flights operated by Selected Airlines</h3>
+         <table class="table">
+ 
+         @foreach (var item in Model.AirlineData.Airlines)
+         {
+         string selectedRow = "";
+         if (item.ID == Model.AirlineID)
+         {
+         selectedRow = "table-success";
+         }
+         <tr class="@selectedRow">
+ 
+         <td>
+         @{
+         foreach (var b in item.Flights)
+         {
+ 
+         @b.Departure @: @b.Arrival 
+ 
+         <br />
+         }
+         }
+         </td>
+         </tr>
+         }
+         </table>
+}
+
+}
+}
